@@ -1,7 +1,9 @@
 from pydantic import Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
-__all__ = ("settings",)
+from src.auth.infrastructure.utils import singleton
+
+__all__ = ("Settings",)
 
 
 class DBSettings(BaseSettings):
@@ -74,7 +76,8 @@ class DockerSettings(BaseSettings):
     broker_host: str = Field(alias="broker_host")
 
 
-class Settings(BaseSettings):
+@singleton
+class Settings:
     db: DBSettings = DBSettings()  # pyright: ignore
     cache: CacheSettings = CacheSettings()  # pyright: ignore
     broker: BrokerSettings = BrokerSettings()  # pyright: ignore
@@ -100,10 +103,7 @@ class Settings(BaseSettings):
         )
 
     def get_broker_uri(self) -> str:
-        return "kafka://{host}:{port}".format(
+        return "{host}:{port}".format(
             host=self.docker.broker_host,
-            port=self.broker.external_port,
+            port=self.broker.port,
         )
-
-
-settings: Settings = Settings()

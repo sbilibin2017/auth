@@ -33,8 +33,7 @@ readme = "README.md"
 packages = [{include = "auth", from = "src"}]
 
 [tool.poetry.dependencies]
-python = ">=3.11,<3.12"
-faust = "^1.10.4"
+python = ">=3.12,<3.13"
 fastapi = "^0.109.0"
 orjson = "^3.9.10"
 pydantic = "^2.5.3"
@@ -46,6 +45,8 @@ gunicorn = "^21.2.0"
 aiologger = "^0.7.0"
 asyncpg = "^0.29.0"
 alembic = "^1.13.1"
+punq = "^0.7.0"
+propan = {extras = ["async-kafka"], version = "^0.1.5.26"}
 
 [tool.poetry.group.dev.dependencies]
 flake8 = "*"

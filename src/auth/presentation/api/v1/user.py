@@ -1,19 +1,20 @@
-from fastapi import APIRouter, Depends
-from src.auth.interfaces.events.worker import IWorker
-from src.auth.events.worker import get_worker
-from src.auth.events.agents.user import get_user_topic
-
+from fastapi import APIRouter
 
 router = APIRouter(prefix="/api/v1/users", tags=["users"])
 
+@router.get("/")
+async def create_user():
+    return "hello"
 
+# @app.post("/")
+# async def create_user(
+#     body: User,
+#     usecase: ICreateUserUsecase = Depends(di_container.resolve(ICreateUserUsecase))
+    
+# )->Response[UserPublic]:
+#     user = await usecase.create_user(body)
+#     user_public = UserPublic.from_orm(user)    
+#     return Response[UserPublic](data=user_public)
 
-@router.post("/")
-async def create_user(
-    dto: UserAddDTO,
-    usecase: IMessageBroker = Depends(get_create_user_usecase),    
-):
-    user = await usecase.create_user(dto)
-    return user
 
 

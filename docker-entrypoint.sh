@@ -1,5 +1,10 @@
 #!/bin/bash
 
+
+sleep 10
+ 
+
+
 if [[ "${APP_DEBUG}" == "1" ]]
 then
   echo "-----DEV-----"

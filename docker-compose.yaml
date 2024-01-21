@@ -6,27 +6,22 @@ volumes:
 
 services:
   zookeeper:
-    image: confluentinc/cp-zookeeper:latest
+    image: 'bitnami/zookeeper:latest'
     environment:
-      ZOOKEEPER_CLIENT_PORT: ${ZOOKEEPER_PORT}
-      ZOOKEEPER_TICK_TIME: 2000
+      - ALLOW_ANONYMOUS_LOGIN=yes
     expose:
-      - "${ZOOKEEPER_PORT}"    
+      - "${ZOOKEEPER_PORT}"
 
   kafka:
-    image: confluentinc/cp-kafka:latest
+    image: 'bitnami/kafka:latest'
+    environment:
+      - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:${ZOOKEEPER_PORT}
+      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://kafka:${KAFKA_PORT}
+      - ALLOW_PLAINTEXT_LISTENER=yes
+    expose:
+      - "${KAFKA_PORT}"
     depends_on:
       - zookeeper
-    expose:
-      - "${KAFKA_EXTERNAL_PORT}"
-    environment:
-      KAFKA_BROKER_ID: 1
-      KAFKA_ZOOKEEPER_CONNECT: zookeeper:${ZOOKEEPER_PORT}
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:${KAFKA_PORT},PLAINTEXT_HOST://localhost:${KAFKA_EXTERNAL_PORT}
-      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
-      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
-      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
-      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
 
   db:
     image: postgres:${POSTGRES_VERSION}    

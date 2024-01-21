@@ -1,1 +1,1 @@
-from src.auth.events.worker import *
+from src.auth.domain.events.user import *

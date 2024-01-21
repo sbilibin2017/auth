@@ -1,2 +1,2 @@
-from src.auth.core.logger import *
-from src.auth.core.settings import *
+from src.auth.infrastructure.core.logger import *
+from src.auth.infrastructure.core.settings import *
